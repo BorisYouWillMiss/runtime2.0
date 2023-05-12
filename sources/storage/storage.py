@@ -10,6 +10,8 @@ from utils.mutex import VDOM_named_mutex_auto
 import settings
 from daemon import VDOM_storage_writer
 
+from minio import Minio
+
 _save_sql = "INSERT OR REPLACE INTO Resource_index (res_id, app_id, filename, name, res_type,res_format) VALUES (?, ?,?,?,?,?)"
 #__update_sql = "UPDATE Resource_index filename=?, name =? , res_type = ?, res_format = ? WHERE res_id=? "
 _clear_sql = "DELETE FROM Resource_index"
@@ -23,8 +25,10 @@ class VDOM_storage(object):
     """VDOM local database interface"""
 
     def __init__(self):
+        
         """constructor"""
         print("Storage initialized") #mylogs
+        self.start_minio()
         self.__dir = settings.CACHE_LOCATION
         self.__fname = self.__dir + "/vdom.storage.db.sql"
         self.__sem = VDOM_semaphore()
@@ -45,6 +49,7 @@ class VDOM_storage(object):
                     VDOM_CONFIG_1[k] = conf[k]
             self.write_object(VDOM_CONFIG["VDOM-CONFIG-1-RECORD"], conf)
 
+
     def init_db(self):
         """open storage"""
         self.__sem.lock()
@@ -60,6 +65,7 @@ class VDOM_storage(object):
             return False
         finally:
             self.__sem.unlock()
+            
 
     def __internal_write(self, key, value, cur=None): #suspect3
         """internal write method"""
@@ -87,6 +93,25 @@ class VDOM_storage(object):
                 cur.execute("insert into storage values (?, ?)", (key, value))
         if conn:
             conn.commit()
+
+    def start_minio(self):
+        host = settings.MINIO_SERVER
+        access_key = settings.MINIO_ACCESS_KEY
+        secret_key = settings.MINIO_SECRET_KEY
+
+        client = Minio(
+            host,
+            access_key=access_key,
+            secret_key=secret_key,
+            secure=False
+        )
+        #bucket creation
+        found = client.bucket_exists(r'testbucket')
+        if not found:
+            client.make_bucket(r'testbucket')
+            print("Bucket created")
+        else:
+            print("Bucket testbucket already exists")
 
     def __internal_read(self, key):
         """internal read method"""

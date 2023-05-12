@@ -41,7 +41,6 @@ from utils.pages import compose_page, compose_trace
 
 THREAD_ATTRIBUTE_NAME = "vdom_web_server_request"
 
-
 class HeaderHandler(object):
     # Initially fail out if there are any problems.
     def __init__(self, header, attrs):
@@ -86,7 +85,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         except:
             raise
 
-    def start_response(self, status, response_headers, exc_info=None):
+    def start_response(self, status, response_headers, exc_info=None): #suspect7
         if exc_info:
             try:
                 raise exc_info[0], exc_info[1], exc_info[2]
@@ -260,7 +259,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             elif time() > deadline:
                 break
 
-    def do_WebDAV(self):
+    def do_WebDAV(self):    #suspect6
         if self.__reject:
             self.send_error(503, self.responses[503][0])
             return None
@@ -322,6 +321,9 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_POST(self):
         """serve a POST request"""
         print("POST CALLED") #mylogs
+
+
+
         # create request object
         #debug("DO POST %s"%self)
         print("=============")
@@ -474,7 +476,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_error(404, self.responses[404][0])
             return None
 
-    def send_headers(self):
+    def send_headers(self): #suspect8
         """send all headers"""
         headers = self.__request.headers_out().headers()
         cookies = self.__request.response_cookies().output()

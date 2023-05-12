@@ -20,8 +20,6 @@ from utils.tracing import format_exception_trace
 from .auxiliary import cleanup_directory
 from .daemon import FileWriter
 
-from minio import Minio
-
 TEMPORARY_DIRECTORY_SUFFIX = "-temporary"
 NO_DEFAULT = "NO DEFAULT"
 
@@ -51,7 +49,7 @@ class FileManager(object):
             except:
                 log.error("Unable to save %s, details below\n%s" %
                     (self.locate(arguments[:3]), format_exception_trace(locals=True, separate=True)))
-
+        
     # locations
 
     def locate(self, category=None, owner=None, name=None, *arguments):
