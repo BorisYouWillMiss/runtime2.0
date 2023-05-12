@@ -10,6 +10,12 @@ DEFAULT_APPLICATION = None
 SERVER_ADDRESS = ""
 SERVER_PORT = 80
 
+# minio server
+
+MINIO_SERVER = "localhost:9000"
+MINIO_ACCESS_KEY = "admin"
+MINIO_SECRET_KEY = "password"
+
 # locations
 
 REPOSITORY_LOCATION = "../repository"

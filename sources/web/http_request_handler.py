@@ -172,8 +172,10 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         __doc__ string for information on how to handle specific HTTP
         commands such as GET and POST.
         """
+
         try:
             self.raw_requestline = self.rfile.readline()
+            
             if len(self.raw_requestline) > 65536:
                 self.requestline = ''
                 self.request_version = ''
@@ -191,6 +193,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             host = self.headers.get("host")
             vh = self.server.virtual_hosting()
             app_id = (vh.get_site(host.lower()) if host else None) or vh.get_def_site()
+        
             if not app_id:
                 app_id = managers.memory.applications.default.id if managers.memory.applications.default else None
             self.wsgidav_app = None
@@ -318,14 +321,17 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         """serve a POST request"""
+        print("POST CALLED") #mylogs
         # create request object
         #debug("DO POST %s"%self)
+        print("=============")
         self.create_request("post")
         # if POST to SOAP-POST-URL call do_SOAP
         if self.__request.environment().environment()["REQUEST_URI"] == VDOM_CONFIG["SOAP-POST-URL"]:
             if self.__card:
                 self.do_SOAP()
             return
+        print("PASSED SOAP") #mylogs
         f = self.on_request("post")
         if f:
             sys.setcheckinterval(0)
@@ -333,6 +339,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             sys.setcheckinterval(100)
             #self.copyfile(f, self.wfile)
             f.close()
+        print("PASSED F") #mylogs
 
     def create_request(self, method):
         """initialize request, <method> is either 'post' or 'get'"""
@@ -343,6 +350,7 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         #debug("Creating request object")
         args = {}
         args["headers"] = self.headers
+        print(str(self.headers))
         args["handler"] = self
         args["method"] = method
         self.__request = VDOM_request(args)

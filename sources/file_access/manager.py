@@ -20,6 +20,7 @@ from utils.tracing import format_exception_trace
 from .auxiliary import cleanup_directory
 from .daemon import FileWriter
 
+from minio import Minio
 
 TEMPORARY_DIRECTORY_SUFFIX = "-temporary"
 NO_DEFAULT = "NO DEFAULT"
