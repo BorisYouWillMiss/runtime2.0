@@ -98,20 +98,24 @@ class VDOM_storage(object):
         host = settings.MINIO_SERVER
         access_key = settings.MINIO_ACCESS_KEY
         secret_key = settings.MINIO_SECRET_KEY
-
+        print("1") #mylogs
         client = Minio(
             host,
             access_key=access_key,
             secret_key=secret_key,
             secure=False
         )
+        print("2") #mylogs
         #bucket creation
         found = client.bucket_exists(r'testbucket')
+        print("3") #mylogs
         if not found:
+            print("4") #mylogs
             client.make_bucket(r'testbucket')
             print("Bucket created")
         else:
             print("Bucket testbucket already exists")
+        print("5") #mylogs
 
     def __internal_read(self, key):
         """internal read method"""
