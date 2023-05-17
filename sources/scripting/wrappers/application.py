@@ -2,6 +2,7 @@
 import re
 import threading
 import os
+import sys #veryfunny
 
 import managers
 
@@ -83,6 +84,13 @@ class VDOM_file_storage(object):
 
     def write(self, filename, content):
         from scripting.wrappers import application
+        #read file to get length, mylogs
+        filelength = 0
+        for line in content:
+            filelength += len(line)
+        content.seek(0)
+        managers.file_manager.minio_write(self.__norm_filename(filename), content, filelength) # write to minio, mylogs
+        
         # return managers.file_manager.write(app_storage, application.id, None, self.__norm_filename(filename),content)
         return managers.file_manager.write(app_storage, application.id, self.__norm_filename(filename), content)
 
@@ -98,6 +106,7 @@ class VDOM_file_storage(object):
 
     def delete(self, filename):
         from scripting.wrappers import application
+        managers.file_manager.minio_delete(self.__norm_filename(filename)) # delete same file in minio, mylogs
         # return managers.file_manager.delete(app_storage, application.id, None, self.__norm_filename(filename))
         return managers.file_manager.delete(app_storage, application.id, self.__norm_filename(filename))
 

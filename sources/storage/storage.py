@@ -23,7 +23,9 @@ class VDOM_storage(object):
     """VDOM local database interface"""
 
     def __init__(self):
+        
         """constructor"""
+        print("Storage initialized") #mylogs
         self.__dir = settings.CACHE_LOCATION
         self.__fname = self.__dir + "/vdom.storage.db.sql"
         self.__sem = VDOM_semaphore()
@@ -44,6 +46,7 @@ class VDOM_storage(object):
                     VDOM_CONFIG_1[k] = conf[k]
             self.write_object(VDOM_CONFIG["VDOM-CONFIG-1-RECORD"], conf)
 
+
     def init_db(self):
         """open storage"""
         self.__sem.lock()
@@ -59,9 +62,11 @@ class VDOM_storage(object):
             return False
         finally:
             self.__sem.unlock()
+            
 
-    def __internal_write(self, key, value, cur=None):
+    def __internal_write(self, key, value, cur=None): # Save file to storage (internal)
         """internal write method"""
+        print("internal write called") #mylogs
         conn = None
         if not cur:
             conn = sqlite3.connect(self.__fname)
@@ -100,7 +105,7 @@ class VDOM_storage(object):
     def __internal_erase(self, key):
         """internal erase method"""
         with sqlite3.connect(self.__fname) as conn:
-            conm.execute("delete from storage where name = ?", (key, ))
+            conn.execute("delete from storage where name = ?", (key, ))
             #conn.commit() #
 
     def prepare(self):
@@ -133,8 +138,9 @@ class VDOM_storage(object):
         #	self.__sem.unlock()
         # return None
 
-    def write(self, key, value):
+    def write(self, key, value):        # Save file to storage
         """write data to storage"""
+        print("write called") #mylogs
         self.__sem.lock()
         try:
             self.__internal_write(key, value)
@@ -146,8 +152,9 @@ class VDOM_storage(object):
         finally:
             self.__sem.unlock()
 
-    def write_async(self, key, value):
+    def write_async(self, key, value):    #suspect2
         """async write data to storage"""
+        print("write async called") #mylogs
         self.__sem.lock()
         if self.__daemon is None:
             self.__daemon = VDOM_storage_writer(self)
@@ -280,8 +287,9 @@ class VDOM_storage(object):
             debug(str(e))
             return None
 
-    def write_object(self, key, object):
+    def write_object(self, key, object):    #suspect4
         """save object to the storage"""
+        print("write object called") #mylogs
         data = None
         try:
             data = cPickle.dumps(object)
@@ -291,8 +299,9 @@ class VDOM_storage(object):
             return False
         return self.write(key, data)
 
-    def write_object_async(self, key, object):
+    def write_object_async(self, key, object):  #suspect5
         """save object to the storage"""
+        print("write object async called") #mylogs
         data = None
         try:
             data = cPickle.dumps(object)

@@ -19,6 +19,7 @@ from utils.tracing import format_exception_trace
 
 from .auxiliary import cleanup_directory
 from .daemon import FileWriter
+from minio import Minio
 
 
 TEMPORARY_DIRECTORY_SUFFIX = "-temporary"
@@ -28,6 +29,7 @@ NO_DEFAULT = "NO DEFAULT"
 class FileManager(object):
 
     def __init__(self):
+        self.minio_create_bucket()
         self._lock = RLock()
         self._queue = deque()
         self._daemon = None
@@ -50,7 +52,50 @@ class FileManager(object):
             except:
                 log.error("Unable to save %s, details below\n%s" %
                     (self.locate(arguments[:3]), format_exception_trace(locals=True, separate=True)))
+    
+    def minio_get_client(self):
+        host = settings.MINIO_SERVER
+        access_key = settings.MINIO_ACCESS_KEY
+        secret_key = settings.MINIO_SECRET_KEY
+        client = Minio(
+            host,
+            access_key=access_key,
+            secret_key=secret_key,
+            secure=False
+        )
+        return client
+                
+    def minio_create_bucket(self): #start with this
+        client = self.minio_get_client()
+        bucket_name = settings.MINIO_BUCKET_NAME
+        #bucket creation
+        found = client.bucket_exists(bucket_name)
+        if not found:
+            client.make_bucket(bucket_name)
+            print("Bucket created")
+        else:
+            print("Bucket "+bucket_name+" already exists")
 
+    def minio_write(self, object_name, file, file_size): #Put file in a bucket
+        client = self.minio_get_client()
+        bucket_name = settings.MINIO_BUCKET_NAME
+
+        if client.bucket_exists:
+            client.put_object(bucket_name, object_name, file, file_size)
+            print("successfully uploaded as object "+object_name+" to bucket"+settings.MINIO_BUCKET_NAME)
+        else:
+            print("Cannot write object, bucket not created")
+
+    def minio_delete(self, object_name):
+        client = self.minio_get_client()
+        bucket_name = settings.MINIO_BUCKET_NAME
+
+        if client.bucket_exists:
+            client.remove_object(bucket_name, object_name)
+            print("object "+object_name+" successfully deleted from bucket"+settings.MINIO_BUCKET_NAME)
+        else:
+            print("Bucket not created")
+        
     # locations
 
     def locate(self, category=None, owner=None, name=None, *arguments):
@@ -223,6 +268,7 @@ class FileManager(object):
                     shutil.move(location, proper_location)
 
     def delete(self, category, owner, name):
+
         location = self.locate(category, owner, name)
         with VDOM_named_mutex(location):
             try:
