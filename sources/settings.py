@@ -8,7 +8,7 @@ DEFAULT_APPLICATION = None
 # server
 
 SERVER_ADDRESS = ""
-SERVER_PORT = 9050
+SERVER_PORT = 9051
 
 # minio server
 

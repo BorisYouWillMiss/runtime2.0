@@ -86,6 +86,18 @@ class FileManager(object):
         else:
             print("Cannot write object, bucket not created")
 
+    def minio_get_object(self, object_name):
+        client = self.minio_get_client()
+        bucket_name = settings.MINIO_BUCKET_NAME
+
+        if client.bucket_exists:
+            # GET WITH URL
+            url = client.presigned_get_object(bucket_name, object_name)
+            print("THIS IS URL = "+url)
+            return url
+        else:
+            print("Cannot create a directory, bucket not created")
+
     def minio_delete(self, object_name):
         client = self.minio_get_client()
         bucket_name = settings.MINIO_BUCKET_NAME

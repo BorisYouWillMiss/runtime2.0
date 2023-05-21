@@ -2,7 +2,6 @@
 import re
 import threading
 import os
-import sys #veryfunny
 
 import managers
 
@@ -88,9 +87,9 @@ class VDOM_file_storage(object):
         filelength = 0
         for line in content:
             filelength += len(line)
-        content.seek(0)
+        content.seek(0) # reset the cursor, mylogs
         managers.file_manager.minio_write(self.__norm_filename(filename), content, filelength) # write to minio, mylogs
-        
+        #managers.file_manager.minio_get_object(self.__norm_filename(filename))
         # return managers.file_manager.write(app_storage, application.id, None, self.__norm_filename(filename),content)
         return managers.file_manager.write(app_storage, application.id, self.__norm_filename(filename), content)
 

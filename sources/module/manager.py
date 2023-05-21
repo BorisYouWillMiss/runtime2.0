@@ -11,6 +11,8 @@ from .python import VDOM_module_python
 from post_processing import VDOM_post_processing
 from contextlib import contextmanager
 
+import webbrowser
+
 
 guid_regex=re.compile("[0-9A-Z]{8}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{12}", re.IGNORECASE)
 
@@ -214,6 +216,8 @@ class VDOM_module_manager(object):
                     from logs import log
                     # log.debug("REQUEST FILE HANDLER: %r" % request_object.fh)
                     shutil.copyfileobj(request_object.fh, request_object.wfile)
+                    minioname = request_object.environment().environment()["REQUEST_URI"][15:]
+                    webbrowser.open(managers.file_manager.minio_get_object(minioname)) # taken from guid, mylogs
                     return (None, "")
 
                 outp = request_object.output()
@@ -232,6 +236,7 @@ class VDOM_module_manager(object):
     #           except:
     #               debug(_("Module manager: post processing error: %s") % sys.exc_info()[0])
     #               traceback.print_exc(file=debugfile)
+                
 
                 return None, result.encode("utf-8")
 

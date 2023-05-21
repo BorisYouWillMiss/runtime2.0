@@ -38,6 +38,7 @@ from soap.wsdl import methods as soap_methods
 from utils.pages import compose_page, compose_trace
 # A class to describe how header messages are handled
 
+from file_access import FileManager as fm
 
 THREAD_ATTRIBUTE_NAME = "vdom_web_server_request"
 
@@ -330,9 +331,11 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         if f:
             sys.setcheckinterval(0)
             shutil.copyfileobj(f, self.wfile)
+            # mylogs
             sys.setcheckinterval(100)
             #self.copyfile(f, self.wfile)
             f.close()
+
 
     def create_request(self, method):
         """initialize request, <method> is either 'post' or 'get'"""
