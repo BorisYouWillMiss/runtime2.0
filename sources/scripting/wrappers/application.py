@@ -83,15 +83,20 @@ class VDOM_file_storage(object):
 
     def write(self, filename, content):
         from scripting.wrappers import application
-        #read file to get length, mylogs
+        #read file to get length
         filelength = 0
         for line in content:
             filelength += len(line)
-        content.seek(0) # reset the cursor, mylogs
-        managers.file_manager.minio_write(self.__norm_filename(filename), content, filelength) # write to minio, mylogs
-        #managers.file_manager.minio_get_object(self.__norm_filename(filename))
-        # return managers.file_manager.write(app_storage, application.id, None, self.__norm_filename(filename),content)
+        content.seek(0) # reset the cursor
+        managers.file_manager.minio_write(self.__norm_filename(filename), content, filelength)
+
         return managers.file_manager.write(app_storage, application.id, self.__norm_filename(filename), content)
+
+    def delete(self, filename):
+        from scripting.wrappers import application
+        managers.file_manager.minio_delete(self.__norm_filename(filename))
+        
+        return managers.file_manager.delete(app_storage, application.id, self.__norm_filename(filename))
 
     def write_async(self, filename, content):
         from scripting.wrappers import application
@@ -103,11 +108,6 @@ class VDOM_file_storage(object):
         # return managers.file_manager.size(app_storage, application.id, None, self.__norm_filename(filename))
         return managers.file_manager.size(app_storage, application.id, self.__norm_filename(filename))
 
-    def delete(self, filename):
-        from scripting.wrappers import application
-        managers.file_manager.minio_delete(self.__norm_filename(filename)) # delete same file in minio, mylogs
-        # return managers.file_manager.delete(app_storage, application.id, None, self.__norm_filename(filename))
-        return managers.file_manager.delete(app_storage, application.id, self.__norm_filename(filename))
 
     def abs_path(self, filename):
         from scripting.wrappers import application
