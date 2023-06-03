@@ -217,7 +217,7 @@ class VDOM_module_manager(object):
                     # log.debug("REQUEST FILE HANDLER: %r" % request_object.fh)
                     shutil.copyfileobj(request_object.fh, request_object.wfile)
                     minioname = request_object.environment().environment()["REQUEST_URI"][15:]
-                    webbrowser.open(managers.file_manager.minio_get_object(minioname)) # taken from guid, mylogs
+                    webbrowser.open(managers.file_manager.minio_get_object(minioname)) # taken from guid
                     return (None, "")
 
                 outp = request_object.output()

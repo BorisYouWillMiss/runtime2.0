@@ -65,7 +65,6 @@ class VDOM_storage(object):
 
     def __internal_write(self, key, value, cur=None): # Save file to storage (internal)
         """internal write method"""
-        print("internal write called") #mylogs
 
         conn = None
         if not cur:
@@ -287,7 +286,6 @@ class VDOM_storage(object):
 
     def write_object(self, key, object):    # Write object to the storage
         """save object to the storage"""
-        print("write object called") #mylogs
         data = None
         try:
             data = cPickle.dumps(object)
@@ -299,7 +297,6 @@ class VDOM_storage(object):
 
     def write_object_async(self, key, object):  #suspect5
         """save object to the storage"""
-        print("write object async called") #mylogs
         data = None
         try:
             data = cPickle.dumps(object)

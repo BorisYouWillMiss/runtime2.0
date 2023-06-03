@@ -12,8 +12,8 @@ SERVER_PORT = 9051
 
 # minio server
 
-MINIO_BUCKET_NAME = r"miniotestbucket" #must be low-case english characters, otherwise won't work
-MINIO_SERVER = "127.0.0.1:9000"
+MINIO_BUCKET_NAME = r"miniotestbucket"
+MINIO_SERVER = "127.0.0.1:9090"
 MINIO_ACCESS_KEY = "admin"
 MINIO_SECRET_KEY = "password"
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application>
+	<Information>
+		<ID>9c96db40-12cd-4630-a217-0e24e6c80cff</ID>
+		<Name>loadapp</Name>
+		<Version>1</Version>
+		<Active>1</Active>
+		<Index>e427e890-70d8-406b-9283-81b8dcb4e154</Index>
+		<Icon>c23be1e6-94fe-4142-b122-f7769310e158</Icon>
+		<ScriptingLanguage>python</ScriptingLanguage>
+		<DefaultLanguage>en-US</DefaultLanguage>
+		<CurrentLanguage>en-US</CurrentLanguage>
+	</Information>
+	<Objects>
+		<Object ID="e427e890-70d8-406b-9283-81b8dcb4e154" Name="htmlcontainer1" Type="2330fe83-8cd6-4ed5-907d-11874e7ebcf4">
+			<Objects>
+				<Object ID="19edb218-ad6e-4e77-91b7-232a9eaeb544" Name="text1" Type="73a54f2e-4001-4676-93a0-804048a57081">
+					<Attributes>
+						<Attribute Name="top">60</Attribute>
+						<Attribute Name="fontsize">36</Attribute>
+						<Attribute Name="value">Load Test</Attribute>
+						<Attribute Name="left">127</Attribute>
+					</Attributes>
+				</Object>
+				<Object ID="bab921fa-3f5a-46a5-808c-91388b358b44" Name="image1" Type="0d36c35d-9508-440f-bfec-668f3db8cfeb">
+					<Attributes>
+						<Attribute Name="render_mode">0</Attribute>
+						<Attribute Name="top">161</Attribute>
+						<Attribute Name="value">3dd9461b-9dcf-4a71-b128-b12623d193c0</Attribute>
+						<Attribute Name="height">268</Attribute>
+						<Attribute Name="width">292</Attribute>
+						<Attribute Name="left">121</Attribute>
+					</Attributes>
+				</Object>
+				<Object ID="30b7b535-c905-4fee-a602-13f99cec397e" Name="image2" Type="0d36c35d-9508-440f-bfec-668f3db8cfeb">
+					<Attributes>
+						<Attribute Name="render_mode">0</Attribute>
+						<Attribute Name="top">497</Attribute>
+						<Attribute Name="value">e874fc37-7122-4f51-af16-6eab9cafd778</Attribute>
+						<Attribute Name="height">286</Attribute>
+						<Attribute Name="width">406</Attribute>
+						<Attribute Name="left">108</Attribute>
+					</Attributes>
+				</Object>
+				<Object ID="ea180b07-d443-4f32-bb9a-492c228c7b64" Name="image3" Type="0d36c35d-9508-440f-bfec-668f3db8cfeb">
+					<Attributes>
+						<Attribute Name="render_mode">0</Attribute>
+						<Attribute Name="top">153</Attribute>
+						<Attribute Name="value">975201b9-dadd-4fb3-9c07-df593d25f14e</Attribute>
+						<Attribute Name="height">279</Attribute>
+						<Attribute Name="width">389</Attribute>
+						<Attribute Name="left">509</Attribute>
+					</Attributes>
+				</Object>
+			</Objects>
+		</Object>
+	</Objects>
+	<Structure>
+		<Object ID="e427e890-70d8-406b-9283-81b8dcb4e154" Top="0" Left="0" State="0"/>
+	</Structure>
+</Application>

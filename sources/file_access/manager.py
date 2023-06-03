@@ -76,7 +76,7 @@ class FileManager(object):
         else:
             print("Bucket "+bucket_name+" already exists")
 
-    def minio_write(self, object_name, file, file_size): #Put file in a bucket
+    def minio_write(self, object_name, file, file_size):
         client = self.minio_get_client()
         bucket_name = settings.MINIO_BUCKET_NAME
 

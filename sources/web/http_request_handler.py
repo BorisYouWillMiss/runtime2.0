@@ -331,7 +331,6 @@ class VDOM_http_request_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         if f:
             sys.setcheckinterval(0)
             shutil.copyfileobj(f, self.wfile)
-            # mylogs
             sys.setcheckinterval(100)
             #self.copyfile(f, self.wfile)
             f.close()
